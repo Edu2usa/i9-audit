@@ -1,0 +1,8 @@
+{
+  "builds": [
+    { "src": "api/i9_audit.py", "use": "@vercel/python" }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "api/i9_audit.py" }
+  ]
+}
