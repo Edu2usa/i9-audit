@@ -1363,8 +1363,23 @@ T_IMPORT = """
     <li>A <strong>Full Name</strong> column is supported (we'll auto-split First / Last).</li>
     <li>Dates can be in any common format: <em>MM/DD/YYYY, YYYY-MM-DD, Jan 15 2024</em>, etc.</li>
     <li>I-9 Complete column: <em>Yes, No, Y, N, a date, True/False</em> all work.</li>
-    <li>Existing employees will NOT be duplicated &mdash; only new rows are inserted.</li>
+   <li>Existing employees (matched by First + Last name) will be updated, not duplicated.</li>
   </ul>
+</div>
+
+<div class="card mt-4" style="padding:20px 24px;border-left:4px solid #dc3545">
+  <div class="form-section-title" style="margin-bottom:8px;color:#dc3545">Danger Zone</div>
+  <p style="font-size:.875rem;color:var(--gray-700);margin-bottom:14px">
+    Delete <strong>all</strong> employee records from the database before importing fresh data.
+    This cannot be undone.
+  </p>
+  <form method="POST" action="{{ url_for('i9_clear_all') }}"
+        onsubmit="return confirm('Delete ALL employee records? This cannot be undone.');">
+    <button type="submit" class="btn"
+            style="background:#dc3545;color:#fff;border-color:#dc3545">
+      &#128465; Clear All Records
+    </button>
+  </form>
 </div>"""
 
 
@@ -1647,8 +1662,15 @@ def _build_payload():
 
 # ── Import route ─────────────────────────────────────────────
 
-@app.route("/i9/import", methods=["GET", "POST"])
-def i9_import():
+@app.route("/i9/clear-all", methods=["POST"])
+def i9_clear_all():
+    try:
+        db().table(TABLE).delete().neq("id", 0).execute()
+        flash("All employee records have been deleted.", "success")
+    except Exception as ex:
+        flash(f"Could not clear records: {ex}", "error")
+    return redirect(url_for("i9_employees"))
+
     ac = alert_count()
 
     if request.method == "GET":
