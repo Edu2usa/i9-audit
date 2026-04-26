@@ -12,17 +12,22 @@ import csv, io, base64
 import os
 
 # ── Supabase ──────────────────────────────────────────────────
-SUPABASE_URL = os.environ.get(
-    "SUPABASE_URL",
-    "https://pfknmvfrsizsdvxknjmm.supabase.co",
+DEFAULT_SUPABASE_URL = "https://pfknmvfrsizsdvxknjmm.supabase.co"
+DEFAULT_SUPABASE_KEY = (
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+    ".eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBma25tdmZyc2l6c2R2eGtuam1tIiwic"
+    "m9sZSI6ImFub24iLCJpYXQiOjE3NzI4MjM1NjgsImV4cCI6MjA4ODM5OTU2OH0"
+    ".HFwO-IcBFdqkU6CITuDKg8jMCLbGsQN0VrU4pgiXJfs"
 )
-SUPABASE_KEY = os.environ.get(
-    "SUPABASE_KEY",
-    ("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
-     ".eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBma25tdmZyc2l6c2R2eGtuam1tIiwic"
-     "m9sZSI6ImFub24iLCJpYXQiOjE3NzI4MjM1NjgsImV4cCI6MjA4ODM5OTU2OH0"
-     ".HFwO-IcBFdqkU6CITuDKg8jMCLbGsQN0VrU4pgiXJfs"),
-)
+
+
+def _looks_like_jwt(value):
+    return isinstance(value, str) and value.count(".") == 2 and len(value) > 40
+
+
+SUPABASE_URL = os.environ.get("SUPABASE_URL") or DEFAULT_SUPABASE_URL
+_env_supabase_key = os.environ.get("SUPABASE_KEY", "").strip()
+SUPABASE_KEY = _env_supabase_key if _looks_like_jwt(_env_supabase_key) else DEFAULT_SUPABASE_KEY
 TABLE = "employees_i9"
 
 app = Flask(__name__)
