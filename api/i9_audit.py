@@ -168,34 +168,44 @@ def alert_count():
 CSS = """
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --navy:#1b3a5c;--navy-dark:#152e4a;--red:#c0392b;--red-dark:#922b21;
-  --gray-50:#f4f6f8;--gray-100:#e9ecef;--gray-200:#dee2e6;--gray-300:#ced4da;
-  --gray-500:#6c757d;--gray-700:#495057;--gray-900:#212529;
+  --navy:#241920;--navy-dark:#312126;--red:#cc2434;--red-dark:#a61a27;
+  --gray-50:#f6f4f5;--gray-100:#f1eaeb;--gray-200:#e6dfe1;--gray-300:#d9d6d8;
+  --gray-500:#6f6770;--gray-700:#565f6c;--gray-900:#1d2128;
   --white:#ffffff;
   --shadow:0 2px 8px rgba(0,0,0,.12);--radius:8px;--radius-sm:5px;--t:.18s ease;
 }
 html{font-size:15px}
-body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--gray-50);
+body{font-family:'Source Sans 3','Segoe UI',system-ui,-apple-system,sans-serif;background:var(--gray-50);
   color:var(--gray-900);line-height:1.55;min-height:100vh;display:flex;flex-direction:column}
 a{color:inherit;text-decoration:none}
+body{
+  background:
+    radial-gradient(1100px 450px at -2% -18%, #f8d7dc 0%, transparent 56%),
+    radial-gradient(900px 400px at 105% -10%, #ebe9ea 0%, transparent 48%),
+    var(--gray-50)
+}
 
 /* ── Header ── */
-.site-header{background:var(--navy);box-shadow:0 2px 8px rgba(0,0,0,.3);
-  position:sticky;top:0;z-index:100}
+.site-header{background:rgba(27,18,20,.88);box-shadow:0 2px 8px rgba(0,0,0,.3);
+  position:sticky;top:0;z-index:100;backdrop-filter:blur(8px)}
 .header-inner{max-width:1200px;margin:0 auto;padding:0 20px;
   display:flex;align-items:center;justify-content:space-between;height:60px;gap:16px}
-.logo-link{display:flex;align-items:center;gap:10px;flex-shrink:0}
-.logo-img{height:38px;width:auto;display:block}
+.logo-link{display:flex;align-items:center;gap:14px;flex-shrink:0}
+.logo-mark{display:flex;align-items:center;justify-content:center;
+  min-width:220px;min-height:54px;padding:8px 16px;border-radius:16px;
+  background:linear-gradient(135deg,rgba(36,25,32,.98),rgba(49,33,38,.94));
+  box-shadow:0 10px 24px rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.08)}
+.logo-img{width:184px;height:auto;display:block;object-fit:contain}
 .logo-text{display:flex;flex-direction:column;line-height:1.1}
-.logo-top{font-size:.7rem;font-weight:700;letter-spacing:.12em;color:#c8d6e5;text-transform:uppercase}
-.logo-bot{font-size:.95rem;font-weight:800;color:var(--white)}
+.logo-top{font-size:.7rem;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.55);text-transform:uppercase}
+.logo-bot{font-size:1rem;font-weight:800;color:var(--white)}
 .main-nav{display:flex;align-items:center;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch}
 .nav-link{color:rgba(255,255,255,.75);font-size:.85rem;font-weight:500;padding:8px 14px;
   border-radius:var(--radius-sm);border-bottom:2px solid transparent;white-space:nowrap;
   transition:color var(--t),background var(--t),border-color var(--t)}
 .nav-link:hover{color:var(--white);background:rgba(255,255,255,.08)}
-.nav-link.active{color:var(--white);font-weight:700;border-bottom-color:var(--white);
-  background:rgba(255,255,255,.10)}
+.nav-link.active{color:var(--white);font-weight:700;border-bottom-color:transparent;
+  background:var(--red)}
 .badge-nav{display:inline-block;background:#dc3545;color:#fff;font-size:.62rem;
   font-weight:800;border-radius:10px;padding:1px 6px;min-width:18px;text-align:center;
   margin-left:3px;vertical-align:middle}
@@ -219,7 +229,7 @@ a{color:inherit;text-decoration:none}
 .stats-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:4px}
 .stat-card{background:var(--white);border-radius:var(--radius);padding:20px 16px;
   box-shadow:var(--shadow);border-left:4px solid var(--gray-300)}
-.stat-card.total   {border-left-color:var(--navy)}
+.stat-card.total   {border-left-color:var(--red)}
 .stat-card.ok      {border-left-color:#28a745}
 .stat-card.expiring{border-left-color:#fd7e14}
 .stat-card.expired {border-left-color:#dc3545}
@@ -227,7 +237,7 @@ a{color:inherit;text-decoration:none}
 .stat-card a{display:block}
 .stat-label{font-size:.67rem;font-weight:700;letter-spacing:.1em;color:var(--gray-500);
   text-transform:uppercase;margin-bottom:6px}
-.stat-value{font-size:2.1rem;font-weight:800;color:var(--navy);line-height:1}
+.stat-value{font-size:2.1rem;font-weight:800;color:var(--red);line-height:1}
 .stat-value.v-ok      {color:#155724}
 .stat-value.v-expiring{color:#c55a11}
 .stat-value.v-expired {color:#721c24}
@@ -252,10 +262,10 @@ a{color:inherit;text-decoration:none}
   border-radius:var(--radius-sm);font-size:.875rem;font-weight:600;cursor:pointer;
   border:2px solid transparent;transition:background var(--t),color var(--t),
   border-color var(--t);white-space:nowrap;line-height:1.2}
-.btn-primary{background:var(--navy);color:var(--white);border-color:var(--navy)}
-.btn-primary:hover{background:var(--navy-dark);border-color:var(--navy-dark)}
+.btn-primary{background:var(--red);color:var(--white);border-color:var(--red)}
+.btn-primary:hover{background:var(--red-dark);border-color:var(--red-dark)}
 .btn-outline{background:var(--white);color:var(--navy);border-color:var(--gray-300)}
-.btn-outline:hover{background:var(--gray-50);border-color:var(--navy)}
+.btn-outline:hover{background:#fff7f8;border-color:var(--red)}
 .btn-danger{background:var(--white);color:var(--red);border-color:#f5c6cb}
 .btn-danger:hover{background:#f8d7da;border-color:var(--red)}
 .btn-success{background:#28a745;color:var(--white);border-color:#28a745}
@@ -273,7 +283,7 @@ a{color:inherit;text-decoration:none}
 
 /* ── Table ── */
 .data-table{width:100%;border-collapse:collapse}
-.data-table thead tr{background:var(--navy);color:var(--white)}
+.data-table thead tr{background:linear-gradient(to right,var(--navy) 0%,var(--navy-dark) 100%);color:var(--white)}
 .data-table thead th{padding:12px 14px;font-size:.68rem;font-weight:700;
   letter-spacing:.08em;text-align:left;white-space:nowrap}
 .data-table tbody tr{border-bottom:1px solid var(--gray-100);transition:background var(--t)}
@@ -285,7 +295,7 @@ td.bold{font-weight:600;color:var(--gray-900)}
 td.actions-cell{white-space:nowrap}
 td.actions-cell .btn+.btn{margin-left:4px}
 .empty-row{text-align:center;color:var(--gray-500);padding:32px !important;font-style:italic}
-.empty-row a{color:var(--navy);font-weight:600}
+.empty-row a{color:var(--red);font-weight:600}
 
 /* ── Row colors ── */
 tr.row-missing  {background:#fff0f0}
@@ -308,13 +318,13 @@ label{display:block;font-size:.78rem;font-weight:700;color:var(--gray-700);
   border-radius:var(--radius-sm);font-size:.875rem;color:var(--gray-900);
   background:var(--white);transition:border-color var(--t);
   appearance:none;-webkit-appearance:none}
-.form-control:focus{outline:none;border-color:var(--navy);
-  box-shadow:0 0 0 3px rgba(27,58,92,.12)}
+.form-control:focus{outline:none;border-color:var(--red);
+  box-shadow:0 0 0 3px rgba(204,36,52,.12)}
 select.form-control{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23495057'/%3E%3C/svg%3E");
   background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
 textarea.form-control{resize:vertical}
 .checkbox-row{display:flex;align-items:center;gap:8px;padding-top:26px}
-.checkbox-row input[type=checkbox]{width:17px;height:17px;accent-color:var(--navy);
+.checkbox-row input[type=checkbox]{width:17px;height:17px;accent-color:var(--red);
   cursor:pointer;flex-shrink:0}
 .checkbox-row label{margin-bottom:0;text-transform:none;letter-spacing:0;
   font-size:.875rem;font-weight:400;cursor:pointer;color:var(--gray-700)}
@@ -345,6 +355,8 @@ textarea.form-control{resize:vertical}
 @media(max-width:640px){
   .stats-grid{grid-template-columns:repeat(2,1fr)}
   .header-inner{padding:0 12px;height:56px}
+  .logo-mark{min-width:154px;min-height:42px;padding:6px 10px;border-radius:12px}
+  .logo-img{width:128px}
   .logo-text{display:none}
   .page-content{padding:14px 12px 48px}
   .page-header h1{font-size:1.4rem}
@@ -371,27 +383,24 @@ textarea.form-control{resize:vertical}
 }
 """
 
-LOGO_SVG = """<svg width="36" height="32" viewBox="0 0 36 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <polygon points="18,0 36,14 30,14 18,5 6,14 0,14" fill="#c0392b"/>
-  <polygon points="18,9 36,23 30,23 18,14 6,23 0,23" fill="#c0392b"/>
-  <polygon points="18,18 36,32 30,32 18,23 6,32 0,32" fill="#922b21"/>
-</svg>"""
-
 BASE = """<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>{% block title %}I-9 Audit – PM{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <style>{{ css }}</style>
 </head>
 <body>
 <header class="site-header">
   <div class="header-inner">
     <a href="{{ url_for('i9_dashboard') }}" class="logo-link">
-      <img src="/static/PM.gif" alt="PM" class="logo-img"
-           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
-      <span style="display:none">{{ logo|safe }}</span>
+      <span class="logo-mark">
+        <img src="https://raw.githubusercontent.com/Edu2usa/preferred-maintenance-flyer/master/assets/images/image1.png" alt="Preferred Maintenance" class="logo-img"/>
+      </span>
       <span class="logo-text">
         <span class="logo-top">Preferred Maintenance</span>
         <span class="logo-bot">I-9 Audit</span>
@@ -430,7 +439,6 @@ def render(body, **ctx):
     full = BASE.replace("{% block content %}{% endblock %}",
                         "{% block content %}" + body + "{% endblock %}")
     ctx.setdefault("css", CSS)
-    ctx.setdefault("logo", LOGO_SVG)
     ctx.setdefault("ep", request.endpoint or "")
     ctx.setdefault("acount", 0)
     return render_template_string(full, **ctx)
@@ -1662,15 +1670,8 @@ def _build_payload():
 
 # ── Import route ─────────────────────────────────────────────
 
-@app.route("/i9/clear-all", methods=["POST"])
-def i9_clear_all():
-    try:
-        db().table(TABLE).delete().neq("id", 0).execute()
-        flash("All employee records have been deleted.", "success")
-    except Exception as ex:
-        flash(f"Could not clear records: {ex}", "error")
-    return redirect(url_for("i9_employees"))
-
+@app.route("/i9/import", methods=["GET", "POST"])
+def i9_import():
     ac = alert_count()
 
     if request.method == "GET":
@@ -1753,6 +1754,16 @@ def i9_clear_all():
 
     flash("Invalid step.", "error")
     return render(T_IMPORT, acount=ac)
+
+
+@app.route("/i9/clear-all", methods=["POST"])
+def i9_clear_all():
+    try:
+        db().table(TABLE).delete().neq("id", 0).execute()
+        flash("All employee records have been deleted.", "success")
+    except Exception as ex:
+        flash(f"Could not clear records: {ex}", "error")
+    return redirect(url_for("i9_employees"))
 
 
 # ── Entry point ───────────────────────────────────────────────
